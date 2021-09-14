@@ -6,7 +6,7 @@ import NewWorkout from "./NewWorkout";
 
 const Details = () => {
     const { id } = useParams();
-    const { data:workout, isPending, error } = useFetch(`http://localhost:8000/workouts/${id}`)
+    const { data:workout, isPending, error } = useFetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${id}`)
 
     const [isModifying, setIsModifying] = useState(false);
 

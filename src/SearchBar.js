@@ -7,7 +7,7 @@ const SearchBar = ({list, updateList}) => {
     }, [list, updateList]);
 
     const handleInputChange = (e) => {
-        let uri = `http://localhost:8000/workouts`;
+        let uri = `https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts`;
         const term = e.target.value;
     
         if (term){

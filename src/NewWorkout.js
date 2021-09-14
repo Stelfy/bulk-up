@@ -68,7 +68,7 @@ const NewWorkout = ({modifiedWorkout}) => {
 
         const workout = { title, exercises };
 
-        fetch('http://localhost:8000/workouts', {
+        fetch('https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify(workout),
@@ -94,7 +94,7 @@ const NewWorkout = ({modifiedWorkout}) => {
 
         setIsPending(true);
 
-        fetch(`http://localhost:8000/workouts/${modifiedWorkout.id}`, {
+        fetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${modifiedWorkout.id}`, {
             method: 'PATCH',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify(

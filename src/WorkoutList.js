@@ -7,7 +7,7 @@ const WorkoutList = ({ workouts }) => {
 
     const handleDeleteWorkout = (id) => {
         if (window.confirm('Do you want to delete this workout?')){
-            fetch(`http://localhost:8000/workouts/${id}`, {
+            fetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${id}`, {
                 method: 'DELETE',
                 headers: {'Content-Type': 'application/json'},
                 body: null,

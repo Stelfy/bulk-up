@@ -6,7 +6,7 @@ const SetList = ({ exercises, sets, exerciseIndex, workoutIndex }) => {
     const [exSets, setExSets] = useState(sets.reps);
 
     const dataPatch = (data) => {
-        fetch(`http://localhost:8000/workouts/${ workoutIndex }`, {
+        fetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${ workoutIndex }`, {
            method: 'PATCH',
            headers: {'Content-Type': 'application/json'},
            body: JSON.stringify({

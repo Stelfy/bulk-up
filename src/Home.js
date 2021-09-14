@@ -4,7 +4,7 @@ import SearchBar from "./SearchBar";
 import { useCallback, useState } from "react";
 
 const Home = () => {
-    const { data: workouts, isPending, error} = useFetch('http://localhost:8000/workouts');
+    const { data: workouts, isPending, error} = useFetch('https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts');
 
     const [list, setList] = useState(workouts);
 

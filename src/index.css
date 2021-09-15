@@ -16,6 +16,8 @@
 body {
   background-color: var(--background-color);
   color: var(--text-color);
+  overflow-x: hidden;
+  position: relative;
 }
 
 /* navbar */
@@ -23,7 +25,7 @@ body {
 .navbar {
   margin: 0 auto;
   max-width: 900px;
-  padding: 20px;
+  padding: 20px 0;
   display: flex;
   justify-content: space-between;
   align-items: baseline;
@@ -65,21 +67,39 @@ body {
   }
 }
 
+@media screen and (max-width: 600px) {
+  .navbar {
+    width: 100%;
+    display: inline-block;
+  }
+  .navbar .title {
+    display: block;
+    text-align: center;
+    width: 100%;
+  }
+  .navbar .new-workout-link {
+    width: fit-content;
+    margin: 0 auto;
+    margin-top: 30px;
+    display: block;
+    text-align: center;
+  }
+}
+
 /* Search Bar */
 
 .home .search-bar {
   margin: 0 auto;
   margin-bottom: 20px;
-  width: fit-content;
+  max-width: 80%;
   display: flex;
-  align-items: center;
 }
 
 .home .search-bar .search-input {
   padding: 5px 20px;
   border-radius: 30px;
   border: 3px solid #222;
-  margin-right: 10px;
+  width: 100%;
   font-size: 30px;
   outline: none;
 }
@@ -93,7 +113,6 @@ body {
 .content {
   max-width: 800px;
   margin: 30px auto;
-  padding: 0 40px;
 }
 
 .content .title {
@@ -140,6 +159,17 @@ body {
   text-decoration: none;
   color: var(--text-color);
   width: 100%;
+}
+
+@media screen and (max-width: 600px) {
+  .content {
+    width: 100%;
+    padding: 0 0;
+  }
+  .workout-list .workout {
+    margin: 0 10px;
+    margin-bottom: 40px;
+  }
 }
 
 /* new workout */
@@ -336,33 +366,30 @@ input::-webkit-inner-spin-button {
 
 .workout-details .workout .exercise .sets .set {
   display: flex;
-  justify-content: center;
-  position: relative;
+  justify-content: space-between;
 }
 
-.set .rep-buttons {
-  position: absolute;
-  left: 20px;
-}
-
+.set .rep-buttons,
 .set .weight-buttons {
-  position: absolute;
-  right: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  color: var(--text-color);
+  height: fit-content;
+  max-width: 300px;
+  flex: 1;
 }
 
 #addRep,
 #removeRep,
 #addWeight,
 #removeWeight {
-  margin: 0 20px;
   height: fit-content;
-  align-self: center;
   font-size: 30px;
   padding: 0 5px;
   background: none;
   border-radius: 50%;
   border: none;
-  color: var(--text-color);
+  color: inherit;
 }
 
 #addRep:hover,
@@ -370,6 +397,11 @@ input::-webkit-inner-spin-button {
 #addWeight:hover,
 #removeWeight:hover {
   color: var(--accent-color);
+}
+
+.set .workout-details {
+  min-width: fit-content;
+  flex: 0 0 auto;
 }
 
 .modify-workout {
@@ -387,4 +419,11 @@ input::-webkit-inner-spin-button {
 
 .modify-workout:hover {
   box-shadow: 2px 4px 4px #222;
+}
+
+@media screen and (max-width: 600px) {
+  .workout-details {
+    margin: 0 10px;
+    text-align: center;
+  }
 }

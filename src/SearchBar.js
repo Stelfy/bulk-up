@@ -6,6 +6,10 @@ const SearchBar = ({list, updateList}) => {
         updateList(list);
     }, [list, updateList]);
 
+    const handleSubmit = (e) => {
+        e.preventDefault();
+    }
+
     const handleInputChange = (e) => {
         let uri = `https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts`;
         const term = e.target.value;
@@ -23,7 +27,7 @@ const SearchBar = ({list, updateList}) => {
     }
 
     return (
-        <form className="search-bar">
+        <form onSubmit={(e) => handleSubmit(e)} className="search-bar">
             <input type="text" className="search-input" placeholder="Search Workout" 
             onChange={ (e) => handleInputChange(e)}
             />

@@ -63,7 +63,9 @@ const SetList = ({ exercises, sets, exerciseIndex, workoutIndex }) => {
                             <button type='button' id="addRep" onClick={() => handleAddRep(index)}>+</button>
                             <button type='button' id="removeRep" onClick={() => handleRemoveRep(index)}>-</button> 
                         </div>
-                        { rep }  X  { sets.weight[index] } Kg
+                        <div className="set-details">
+                            { rep }  X  { sets.weight[index] } Kg
+                        </div>  
                         <div className="weight-buttons">
                             <button type='button' id="addWeight" onClick={() => handleAddWeight(index)}>+</button>
                             <button type='button' id="removeWeight" onClick={() => handleRemoveWeight(index)}>-</button>

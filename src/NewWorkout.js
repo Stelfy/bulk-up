@@ -126,7 +126,8 @@ const NewWorkout = ({modifiedWorkout}) => {
                 onSubmit = {(e) => handleSubmit(e)}
             >
                 <label>Workout Name</label>
-                <input type="text" 
+                <input type="text"
+                    className="workout-input" 
                     value = { title }
                     onChange = { (e) => handleTitle(e)}
                     required
@@ -135,8 +136,9 @@ const NewWorkout = ({modifiedWorkout}) => {
                     return (
                         <div className="exercise" key={ index }>
                         <div className="add-exercise">
-                            <label>Exercise</label>
+                            <label for='name' className="exercise-label">Exercise</label>
                             <input type="text" 
+                                className="exercise-input"
                                 name = 'name'
                                 value = {exercise.name}
                                 onChange = {(e) => handleInputChangeEx(e, index)}
@@ -145,26 +147,33 @@ const NewWorkout = ({modifiedWorkout}) => {
                             { exercises[index].reps.map((rep, indexSet) => {
                                 return (
                                     <div className="set" key={ indexSet }>
-                                    <label>Reps</label>
-                                    <input type="number" 
-                                        name = 'reps'
-                                        value = {rep}
-                                        onChange = {(e) => handleInputChangeSet(e, index, indexSet)}
-                                        required
-                                    />
-                                    <label>Weight</label>
-                                    <input type="number" 
-                                        name = 'weight'
-                                        value = {exercise.weight[indexSet]}
-                                        onChange = {(e) => handleInputChangeSet(e, index, indexSet)}
-                                        required
-                                    />
+                                        <div className="new-reps">
+                                            <label className="rep-label">Reps</label>
+                                            <input type="number" 
+                                                className="rep-input"
+                                                name = 'reps'
+                                                value = {rep}
+                                                onChange = {(e) => handleInputChangeSet(e, index, indexSet)}
+                                                required
+                                            />
+                                        </div>
+                                        <div className="new-weights">
+                                            <label className="weight-label">Weight</label>
+                                            <input type="number" 
+                                                className="weight-input"
+                                                name = 'weight'
+                                                value = {exercise.weight[indexSet]}
+                                                onChange = {(e) => handleInputChangeSet(e, index, indexSet)}
+                                                required
+                                            />
+                                        </div>
+
                                     { exercises[index].reps.length !== 1 && 
                                         <button 
                                             id="delete-set"
                                             onClick={ () => handleDeleteSet(index, indexSet) }
                                         >x</button> }
-                                        <br />
+                                        
                                     </div>
                                 );
                             })}

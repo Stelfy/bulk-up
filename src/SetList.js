@@ -1,27 +1,42 @@
 import { useState } from 'react';
+import { doc, updateDoc } from '@firebase/firestore';
+import db from './firebase';
 
-const SetList = ({ exercises, sets, exerciseIndex, workoutIndex }) => {
+const SetList = ({ exercises, sets, exerciseIndex, workoutID }) => {
+
 
     const [error, setError] = useState('');
     const [exSets, setExSets] = useState(sets.reps);
 
     const dataPatch = (data) => {
-        fetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${ workoutIndex }`, {
-           method: 'PATCH',
-           headers: {'Content-Type': 'application/json'},
-           body: JSON.stringify({
-                exercises: data,
-           })
-       })
-       .then( (res) => {
-           if (!res.ok){
-               throw new Error('Server unresponsive');
-           }
-           setExSets([...data[exerciseIndex].reps]);
-       })
-       .catch(err => {
+
+        //changes the specified field of a document without overwriting it all (similar to 'PATCH')
+        updateDoc(doc(db, "workouts", workoutID), {
+            exercises: data,
+        })
+        .then(() => {
+            setExSets([...data[exerciseIndex].reps]);   //updates the array of reps for each exercise
+        })
+        .catch((err) => {
             setError(err.message);
-       })
+        })
+
+    //     fetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${ workoutIndex }`, {
+    //        method: 'PATCH',
+    //        headers: {'Content-Type': 'application/json'},
+    //        body: JSON.stringify({
+    //             exercises: data,
+    //        })
+    //    })
+    //    .then( (res) => {
+    //        if (!res.ok){
+    //            throw new Error('Server unresponsive');
+    //        }
+    //        setExSets([...data[exerciseIndex].reps]);
+    //    })
+    //    .catch(err => {
+    //         setError(err.message);
+    //    })
     }
 
     const handleAddRep = (repIndex) => {
@@ -40,15 +55,15 @@ const SetList = ({ exercises, sets, exerciseIndex, workoutIndex }) => {
 
     const handleAddWeight = (weightIndex) => {
         const newExercises = [...exercises];
-        const updatedRep = (parseFloat(newExercises[exerciseIndex].weight[weightIndex]) + 1.25 ).toString();
-        newExercises[exerciseIndex].weight[weightIndex] = updatedRep;
+        const updatedRep = (parseFloat(newExercises[exerciseIndex].weights[weightIndex]) + 1.25 ).toString();
+        newExercises[exerciseIndex].weights[weightIndex] = updatedRep;
         dataPatch(newExercises);
     }
 
     const handleRemoveWeight = (weightIndex) => {
         const newExercises = [...exercises];
-        const updatedRep = (parseFloat(newExercises[exerciseIndex].weight[weightIndex]) - 1.25 ).toString();
-        newExercises[exerciseIndex].weight[weightIndex] = updatedRep;
+        const updatedRep = (parseFloat(newExercises[exerciseIndex].weights[weightIndex]) - 1.25 ).toString();
+        newExercises[exerciseIndex].weights[weightIndex] = updatedRep;
         dataPatch(newExercises);
     }
 
@@ -64,7 +79,7 @@ const SetList = ({ exercises, sets, exerciseIndex, workoutIndex }) => {
                             <button type='button' id="removeRep" onClick={() => handleRemoveRep(index)}>-</button> 
                         </div>
                         <div className="set-details">
-                            { rep }  X  { sets.weight[index] } Kg
+                            { rep }  X  { sets.weights[index] } Kg
                         </div>  
                         <div className="weight-buttons">
                             <button type='button' id="addWeight" onClick={() => handleAddWeight(index)}>+</button>

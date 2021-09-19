@@ -1,6 +1,7 @@
 import SetList from "./SetList";
 
-const ExerciseList = ({ exercises, workoutIndex }) => {
+const ExerciseList = ({ exercises, workoutID }) => {
+    
     return (
         <div className="exercise">
             {exercises.map( (ex, index) => {
@@ -8,7 +9,7 @@ const ExerciseList = ({ exercises, workoutIndex }) => {
                     <div key={index}>
                         <h3>{ ex.name }</h3>
                         <div className="set">
-                            <SetList exercises = { exercises } sets={ ex } exerciseIndex={ index } workoutIndex={ workoutIndex } />
+                            <SetList exercises = { exercises } sets={ ex } exerciseIndex={ index } workoutID={ workoutID } />
                         </div>
                     </div>
                 )

@@ -1,9 +1,11 @@
 import { useState } from "react";
 import { useHistory } from "react-router";
+import { collection, addDoc, doc, setDoc } from "firebase/firestore";
+import db from "./firebase";
 
 const NewWorkout = ({modifiedWorkout}) => {
 
-    let initialExercises = [{name: "", reps: [''], weight: ['']}];
+    let initialExercises = [{name: "", reps: [''], weights: ['']}];
     let initialTitle = '';
 
     if (modifiedWorkout){
@@ -39,12 +41,12 @@ const NewWorkout = ({modifiedWorkout}) => {
     const handleDeleteSet = (indexEx, indexSet) => {
         const list = [...exercises];
         list[indexEx].reps.splice(indexSet, 1);
-        list[indexEx].weight.splice(indexSet, 1);
+        list[indexEx].weights.splice(indexSet, 1);
         setExercises(list);
     }
 
     const handleAddEx = () => {
-        setExercises(exercises.concat([{name: "", reps: [''], weight: ['']}]));
+        setExercises(exercises.concat([{name: "", reps: [''], weights: ['']}]));
     }
 
     const handleInputChangeSet = (e, index, indexSet) => {
@@ -57,7 +59,7 @@ const NewWorkout = ({modifiedWorkout}) => {
     const handleAddSet = (index) => {
         const list = [...exercises];
         list[index].reps.push('');
-        list[index].weight.push('');
+        list[index].weights.push('');
         setExercises(list);
     }
 
@@ -68,25 +70,38 @@ const NewWorkout = ({modifiedWorkout}) => {
 
         const workout = { title, exercises };
 
-        fetch('https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify(workout),
+        // adding a document to workouts with random id 
+        addDoc(collection(db, "workouts"), workout)
+        .then(() => {
+            setIsPending(false);
+            setError(null);
+            history.push('/');
         })
-        .then( (res) => {
-            if (!res.ok) {
-                throw new Error('Server unresponsive')
-            }
-            else {
-                setIsPending(false);
-                setError(null);
-                history.push('/');
-            }
-        })
-        .catch( err => {
+        .catch((err) => {
             setError(err.message);
             setIsPending(false);
-        });
+        })
+
+        // fetch('https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts', {
+        //     method: 'POST',
+        //     headers: { 'Content-Type': 'application/json'},
+        //     body: JSON.stringify(workout),
+        // })
+        // .then( (res) => {
+        //     console.log(workout);
+        //     if (!res.ok) {
+        //         throw new Error('Server unresponsive')
+        //     }
+        //     else {
+        //         setIsPending(false);
+        //         setError(null);
+        //         history.push('/');
+        //     }
+        // })
+        // .catch( err => {
+        //     setError(err.message);
+        //     setIsPending(false);
+        // });
     }
 
     const handleModify = (e) => {
@@ -94,30 +109,45 @@ const NewWorkout = ({modifiedWorkout}) => {
 
         setIsPending(true);
 
-        fetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${modifiedWorkout.id}`, {
-            method: 'PATCH',
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(
-                {
-                    title,
-                    exercises
-                }
-            ),
+        //overwrite current workout with new saved workout
+        setDoc(doc(db, "workouts", modifiedWorkout.id), {
+            title,
+            exercises
         })
-        .then((res) => {
-            if (!res.ok) {
-                throw new Error('Server unresponsive')
-            }
-            else {
-                setIsPending(false);
-                setError(null);
-                history.push('/');
-            }
+        .then(() => {
+            setIsPending(false);
+            setError(null);
+            history.push('/');
         })
-        .catch( err => {
+        .catch((err) => {
             setError(err.message);
             setIsPending(false);
-        });
+        })
+
+        // fetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${modifiedWorkout.id}`, {
+        //     method: 'PATCH',
+        //     headers: {'Content-Type': 'application/json'},
+        //     body: JSON.stringify(
+        //         {
+        //             title,
+        //             exercises
+        //         }
+        //     ),
+        // })
+        // .then((res) => {
+        //     if (!res.ok) {
+        //         throw new Error('Server unresponsive')
+        //     }
+        //     else {
+        //         setIsPending(false);
+        //         setError(null);
+        //         history.push('/');
+        //     }
+        // })
+        // .catch( err => {
+        //     setError(err.message);
+        //     setIsPending(false);
+        // });
     }
 
     return (
@@ -136,7 +166,7 @@ const NewWorkout = ({modifiedWorkout}) => {
                     return (
                         <div className="exercise" key={ index }>
                         <div className="add-exercise">
-                            <label for='name' className="exercise-label">Exercise</label>
+                            <label className="exercise-label">Exercise</label>
                             <input type="text" 
                                 className="exercise-input"
                                 name = 'name'
@@ -161,8 +191,8 @@ const NewWorkout = ({modifiedWorkout}) => {
                                             <label className="weight-label">Weight</label>
                                             <input type="number" 
                                                 className="weight-input"
-                                                name = 'weight'
-                                                value = {exercise.weight[indexSet]}
+                                                name = 'weights'
+                                                value = {exercise.weights[indexSet]}
                                                 onChange = {(e) => handleInputChangeSet(e, index, indexSet)}
                                                 required
                                             />

@@ -1,29 +1,28 @@
-import { useEffect } from "react";
+import { getDocs, query, collection, where } from "firebase/firestore";
+import db from "./firebase";
 
-const SearchBar = ({list, updateList}) => {
-
-    useEffect(() => {
-        updateList(list);
-    }, [list, updateList]);
+const SearchBar = ({setWorkouts, updateWorkoutList}) => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
     }
 
     const handleInputChange = (e) => {
-        let uri = `https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts`;
-        const term = e.target.value;
-    
-        if (term){
-            uri += `?q=${term.trim()}`;
-        }
-        fetch(uri)
-        .then(res => {
-            return res.json();
-        })
-        .then(data => {
-            updateList(data);
-        });  
+        // use search queries to list all workouts with exercise name as value
+        getDocs(query(collection(db, "workouts"), where("title", "==", e.target.value)))
+            .then((querySnapshot) => {
+                const workoutsTemp=[];
+
+                querySnapshot.forEach((workout) => {
+                    workoutsTemp.push({...workout.data(), id: workout.id});
+                })
+
+                setWorkouts(workoutsTemp);
+                workoutsTemp.length = 0;
+
+                if (!e.target.value)            //if the value searched is empty, dont use query                 
+                    updateWorkoutList();
+            });
     }
 
     return (

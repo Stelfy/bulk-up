@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useHistory } from "react-router";
 import { collection, addDoc, doc, setDoc } from "firebase/firestore";
-import db from "./firebase";
+import { db } from "./firebase";
+import { UserContext } from "./UserContext";
 
 const NewWorkout = ({modifiedWorkout}) => {
+
+    const currentUser = useContext(UserContext);
 
     let initialExercises = [{name: "", reps: [''], weights: ['']}];
     let initialTitle = '';
@@ -68,7 +71,7 @@ const NewWorkout = ({modifiedWorkout}) => {
 
         setIsPending(true);
 
-        const workout = { title, exercises };
+        const workout = { title, exercises, uid: currentUser.uid };
 
         // adding a document to workouts with random id 
         addDoc(collection(db, "workouts"), workout)
@@ -82,26 +85,6 @@ const NewWorkout = ({modifiedWorkout}) => {
             setIsPending(false);
         })
 
-        // fetch('https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts', {
-        //     method: 'POST',
-        //     headers: { 'Content-Type': 'application/json'},
-        //     body: JSON.stringify(workout),
-        // })
-        // .then( (res) => {
-        //     console.log(workout);
-        //     if (!res.ok) {
-        //         throw new Error('Server unresponsive')
-        //     }
-        //     else {
-        //         setIsPending(false);
-        //         setError(null);
-        //         history.push('/');
-        //     }
-        // })
-        // .catch( err => {
-        //     setError(err.message);
-        //     setIsPending(false);
-        // });
     }
 
     const handleModify = (e) => {
@@ -112,7 +95,8 @@ const NewWorkout = ({modifiedWorkout}) => {
         //overwrite current workout with new saved workout
         setDoc(doc(db, "workouts", modifiedWorkout.id), {
             title,
-            exercises
+            exercises,
+            uid: currentUser.uid
         })
         .then(() => {
             setIsPending(false);
@@ -123,31 +107,6 @@ const NewWorkout = ({modifiedWorkout}) => {
             setError(err.message);
             setIsPending(false);
         })
-
-        // fetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${modifiedWorkout.id}`, {
-        //     method: 'PATCH',
-        //     headers: {'Content-Type': 'application/json'},
-        //     body: JSON.stringify(
-        //         {
-        //             title,
-        //             exercises
-        //         }
-        //     ),
-        // })
-        // .then((res) => {
-        //     if (!res.ok) {
-        //         throw new Error('Server unresponsive')
-        //     }
-        //     else {
-        //         setIsPending(false);
-        //         setError(null);
-        //         history.push('/');
-        //     }
-        // })
-        // .catch( err => {
-        //     setError(err.message);
-        //     setIsPending(false);
-        // });
     }
 
     return (

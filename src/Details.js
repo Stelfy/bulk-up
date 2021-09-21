@@ -3,7 +3,7 @@ import ExerciseList from "./ExerciseList";
 import { useEffect, useState } from "react";
 import NewWorkout from "./NewWorkout";
 import { onSnapshot, doc } from "@firebase/firestore";
-import db from "./firebase";
+import { db } from "./firebase";
 
 const Details = () => {
     const { id } = useParams();
@@ -18,7 +18,10 @@ const Details = () => {
         const unsub = onSnapshot(doc(db, "workouts", id), (workoutQuery) => {
             setWorkout({...workoutQuery.data(), id: workoutQuery.id});
             setIsPending(false);
-        });
+        }, 
+        error => {
+            setError(error);    // returns an error for onSnapshot
+        })
         return unsub;
     }, [id])
 

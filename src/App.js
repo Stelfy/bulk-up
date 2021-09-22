@@ -13,6 +13,7 @@ function App() {
 
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [currentUser, setCurrentUser] = useState(null); //state for current user
+  const [isAuthenticating, setIsAuthenticating] = useState(true);  //state for is authenticating boolean
 
   //whenever a user signs in or out it runs the function
   onAuthStateChanged(auth, (user) => {
@@ -23,14 +24,16 @@ function App() {
     else {
       setIsLoggedIn(false);
     }
+    setIsAuthenticating(false); //sets the is authenticating boolean 
   })
 
-  if(!isLoggedIn){
+  if(!isLoggedIn && !isAuthenticating){
     //loads the login page if the user isn't logged in
     return <Login />
   }
 
   return (
+    !isAuthenticating && (  // this is so the page loads only when the user is authenticated
     <Router>
       <UserContext.Provider value={currentUser}>
         <div className="App">
@@ -51,7 +54,7 @@ function App() {
         </div>
       </UserContext.Provider>
     </Router>
-    
+    )
   );
 }
 

@@ -30,12 +30,17 @@ const Login = () => {
 
     const handleSignup = () => {
 
+        if (!email || !password){
+            setError("Please fill out the form.");
+            return;
+        }
+
         //sign up and sign in the user
         createUserWithEmailAndPassword(auth, email, password)
         .then((userCredential) => {
         })
         .catch((err) => {
-            setError(err.message);
+            setError('Something went wrong.');
         })
     }
 
@@ -45,11 +50,11 @@ const Login = () => {
             <form className="login-form" onSubmit={(e) => {handleSubmit(e)}}>
                 <div className="email">
                     <label htmlFor="email-input" className="email-label">Email</label>
-                    <input type="email" name="emailInput" className="email-input" onChange={(e) => handleEmailChange(e)}/>
+                    <input required type="email" name="emailInput" className="email-input" onChange={(e) => handleEmailChange(e)}/>
                 </div>
                 <div className="password">
                     <label htmlFor="password-input" className="password-label">Password</label>
-                    <input type="text" name="passwordInput" className="password-input" onChange={(e) => handlePasswordChange(e)}/>
+                    <input required type="text" name="passwordInput" className="password-input" onChange={(e) => handlePasswordChange(e)}/>
                 </div>
                 <div className="buttons">
                     <button className="login-button">Login</button>

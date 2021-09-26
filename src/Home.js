@@ -2,7 +2,7 @@ import WorkoutList from "./WorkoutList";
 import SearchBar from "./SearchBar";
 import { useContext, useEffect, useState } from "react";
 import { db } from "./firebase";
-import { collection, onSnapshot, query, where } from "firebase/firestore"
+import { collection, getDocs, query, where } from "firebase/firestore"
 import { UserContext } from "./UserContext";
 
 const Home = () => {
@@ -19,25 +19,29 @@ const Home = () => {
         setIsPending(true);
         const workoutsTemp = [];
 
-        //should update every time db changes, but being in a function negates that I think
-        onSnapshot(query(collection(db, "workouts"), where("uid", "==", currentUser.uid)), (querySnapshot) => {
-            querySnapshot.docs.forEach((workout) => {
-                workoutsTemp.push({...workout.data(), id: workout.id});
-            })
+        //gets all docs in collection "workouts"
+        getDocs(query(collection(db, "workouts"), where("uid", "==", currentUser.uid)))
+            .then(querySnapshot => {
+                querySnapshot.forEach(workout => {
+                    workoutsTemp.push({...workout.data(), id: workout.id});
+                })
 
-            setWorkouts(workoutsTemp);
-            setIsPending(false);
-            workoutsTemp.length = 0;    // clears the temp array to avoid weird errors
-        },
-        error => {
-            setError(error);    // catches errors for onSnapshot
-        });
-    }
+                setWorkouts(workoutsTemp);
+                setIsPending(false);
+                workoutsTemp.length = 0;    // clears the temp array to avoid weird errors
+            })
+            .catch(err => {
+                setError(err.message);
+                setIsPending(false);
+                workoutsTemp.length = 0;
+            })
+     }
 
     //update the workout list on load
     useEffect(() => {
         updateWorkoutList();
-        return function cleanup() {onSnapshot(collection(db, "workouts"))}; //does this work??
+        return function cleanup() {}; //I HAVE NO IDEA HOW TO CLEAN UP A getDocs REQUEST 
+        // eslint-disable-next-line
     }, [])
 
     

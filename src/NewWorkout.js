@@ -134,11 +134,12 @@ const NewWorkout = ({modifiedWorkout}) => {
                                 required
                             /><br />
                             { exercises[index].reps.map((rep, indexSet) => {
+                                console.log(`This is ${exercises[index].name} at set index: ${indexSet}`);
                                 return (
                                     <div className="set" key={ indexSet }>
                                         <div className="new-reps">
                                             <label className="rep-label">Reps</label>
-                                            <input type="number" 
+                                            <input type="number"  
                                                 className="rep-input"
                                                 name = 'reps'
                                                 value = {rep}
@@ -148,7 +149,7 @@ const NewWorkout = ({modifiedWorkout}) => {
                                         </div>
                                         <div className="new-weights">
                                             <label className="weight-label">Weight</label>
-                                            <input type="number" 
+                                            <input type="number"  
                                                 className="weight-input"
                                                 name = 'weights'
                                                 value = {exercise.weights[indexSet]}
@@ -159,6 +160,7 @@ const NewWorkout = ({modifiedWorkout}) => {
 
                                     { exercises[index].reps.length !== 1 && 
                                         <button 
+                                            type="button"
                                             id="delete-set"
                                             onClick={ () => handleDeleteSet(index, indexSet) }
                                         >x</button> }

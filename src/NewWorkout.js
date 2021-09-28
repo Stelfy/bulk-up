@@ -134,7 +134,6 @@ const NewWorkout = ({modifiedWorkout}) => {
                                 required
                             /><br />
                             { exercises[index].reps.map((rep, indexSet) => {
-                                console.log(`This is ${exercises[index].name} at set index: ${indexSet}`);
                                 return (
                                     <div className="set" key={ indexSet }>
                                         <div className="new-reps">

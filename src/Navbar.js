@@ -18,7 +18,7 @@ const Navbar = () => {
         auth.signOut();
     }
 
-    const listItems = [<Link to="/new-workout" onClick={toggleDropdown}>New Workout</Link>];   //set list items
+    const listItems = [<Link to="/new-workout">New Workout</Link>];   //set list items
 
     return (
         <nav className="navbar">

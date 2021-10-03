@@ -7,8 +7,8 @@ const Dropdown = ({listItems, toggleDropdown}) => {
         auth.signOut();
     }
 
-    const handleUnfocus = () => {
-        toggleDropdown();   //passed function that closes the dropdown
+    const handleUnfocus = (e) => {
+        setTimeout(toggleDropdown, 200); //passed function that closes the dropdown
     }
 
     useEffect(() => {
@@ -16,7 +16,7 @@ const Dropdown = ({listItems, toggleDropdown}) => {
     }, []);
 
     return (
-        <ul tabIndex="1" id="dropdown-list" className="dropdown-list"  onBlur={handleUnfocus} >
+        <ul tabIndex="1" id="dropdown-list" className="dropdown-list"  onBlur={(e) => handleUnfocus(e)} >
             <li onClick={()=>handleLogout()}>Logout</li>
             { listItems && listItems.map((item, index) => <li key={index}>{item}</li>) }
         </ul>

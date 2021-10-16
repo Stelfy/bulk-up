@@ -1,0 +1,9 @@
+<svg  viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <g id="dumbel">
+        <rect id="Rectangle 1" x="41.2222" y="57.962" width="40" height="8" transform="rotate(-34.2874 41.2222 57.962)" fill="#fff"/>
+        <rect id="Rectangle 2" x="18.9515" y="50.1506" width="12" height="46" rx="6" transform="rotate(-34.2874 18.9515 50.1506)" fill="#fff"/>
+        <rect id="Rectangle 3" x="11.3278" y="63.821" width="12" height="33" rx="6" transform="rotate(-34.2874 11.3278 63.821)" fill="#fff"/>
+        <rect id="Rectangle 4" x="65.22" y="18.6033" width="12" height="46" rx="6" transform="rotate(-34.2874 65.22 18.6033)" fill="#fff"/>
+        <rect id="Rectangle 5" x="80.1671" y="15.6738" width="12" height="33" rx="6" transform="rotate(-34.2874 80.1671 15.6738)" fill="#fff"/>
+    </g>
+</svg>

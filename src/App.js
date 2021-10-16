@@ -8,6 +8,7 @@ import { useState } from "react";
 import { onAuthStateChanged } from "@firebase/auth";
 import { auth } from "./firebase";
 import { UserContext } from "./UserContext";
+import ErrorPage from "./ErrorPage";
 
 function App() {
 
@@ -48,6 +49,9 @@ function App() {
             </Route>
             <Route path='/workout-details/:id'>
               <Details />
+            </Route>
+            <Route path='*'>
+              <ErrorPage />
             </Route>
           </Switch>
           </div>

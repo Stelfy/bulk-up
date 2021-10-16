@@ -8,7 +8,7 @@ const Dropdown = ({listItems, toggleDropdown}) => {
     }
 
     const handleUnfocus = (e) => {
-        setTimeout(toggleDropdown, 200); //passed function that closes the dropdown
+        setTimeout(toggleDropdown, 300); //passed function that closes the dropdown
     }
 
     useEffect(() => {

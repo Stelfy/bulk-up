@@ -13,11 +13,16 @@
   scroll-behavior: smooth;
 }
 
+html {
+  height: 100%;
+}
+
 body {
   background-color: var(--background-color);
   color: var(--text-color);
   overflow-x: hidden;
   position: relative;
+  height: 100%;
 }
 
 /* login page */
@@ -115,52 +120,68 @@ body {
 /* navbar */
 
 .navbar {
-  margin: 0 auto;
-  max-width: 1600px;
-  padding: 20px;
+  position: sticky;
+  top: 0;
+  box-shadow: 0 1px 6px 2px #111;
+  width: 100%;
+  height: 100%;
+  margin-top: 0;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
   display: flex;
   flex-wrap: wrap;
   justify-content: right;
   align-items: baseline;
   font-size: 32px;
+  background-color: var(--background-color);
+  z-index: 9999;
 }
 
 .navbar .title-and-dropdown {
   flex: 1;
-  text-align: center;
-  min-width: 350px;
-  margin-bottom: 20px;
+  text-align: left;
+  margin-left: 20px;
 }
 
 /* navbar .dropdown */
 
 .navbar .dropdown {
-  display: inline-block;
-  width: 60px;
-  height: 60px;
-  align-self: center;
-  padding-right: 5px;
-  padding-bottom: 5px;
-  margin-right: 20px;
   background-color: var(--background-color);
   border: none;
-  border-radius: 20%;
-  transition: filter 300ms;
+  margin-right: 20px;
 }
 
-.navbar .dropdown:hover {
-  filter: brightness(1.2);
+.navbar svg {
+  cursor: pointer;
+  background-color: var(--background-color);
+  width: 60px;
+  height: 50px;
+  border-radius: 10px;
+}
+
+.navbar #dropdown {
+  fill: var(--accent-color);
+}
+
+.navbar rect {
+  transition: all 300ms;
+}
+
+.navbar svg:hover rect,
+.navbar svg:focus rect {
+  transform: translateY(calc(10px * var(--move-direction)));
 }
 
 .navbar .dropdown-list {
   background-color: var(--background-color);
   text-align: left;
-  overflow-y: hidden;
   position: absolute;
   top: 0;
   left: 0;
   z-index: 1;
-  width: 0;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  width: 25%;
   height: calc(100vh - 38px);
   padding: 15px 10px;
   list-style: none;
@@ -170,13 +191,20 @@ body {
 }
 
 @keyframes popup {
+  from {
+    width: 0;
+  }
   to {
     width: 25%;
   }
 }
 
 .navbar .dropdown-list:not(:focus) {
-  animation: popdown 200ms ease-out forwards;
+  animation-name: popdown;
+  animation-duration: 200ms;
+  animation-delay: 100ms;
+  animation-timing-function: ease-out;
+  animation-fill-mode: forwards;
 }
 
 @keyframes popdown {
@@ -188,8 +216,15 @@ body {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 880px) {
+  .navbar .dropdown-list {
+    width: 75%;
+  }
+
   @keyframes popup {
+    from {
+      width: 0;
+    }
     to {
       width: 75%;
     }
@@ -210,9 +245,12 @@ body {
   border-radius: 10px;
   padding: 8px 10px;
   transition: filter 200ms;
+  cursor: pointer;
 }
 
-.navbar .dropdown-list a {
+.navbar .dropdown-list #new-workout-link-dropdown {
+  display: inline-block;
+  width: 100%;
   text-decoration: none;
   color: var(--text-color);
 }
@@ -286,23 +324,26 @@ body {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 880px) {
   .navbar {
-    padding-left: 0;
-    padding-right: 0;
-    width: 100%;
     display: inline-block;
+    padding-bottom: 0;
   }
 
   .navbar .title-and-dropdown {
-    display: flex;
-    justify-content: left;
-    align-items: baseline;
+    display: inline-block;
+    padding-bottom: 10px;
+    margin-left: 10px;
+    margin-bottom: 0;
+  }
+
+  .navbar .title {
+    margin: 0;
+    padding: 0;
   }
 
   .navbar .dropdown {
-    margin: 0 15px;
-    margin-right: 15%;
+    margin-right: 10px;
   }
 
   .navbar .nav-links {
@@ -337,6 +378,7 @@ body {
 .content {
   max-width: 800px;
   margin: 30px auto;
+  padding-bottom: 30px;
 }
 
 .content .title {
@@ -385,10 +427,11 @@ body {
   width: 100%;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 880px) {
   .content {
     width: 100%;
     padding: 0 0;
+    padding-bottom: 20px;
   }
   .workout-list .workout {
     margin: 0 10px;
@@ -584,7 +627,7 @@ input::-webkit-inner-spin-button {
   margin-top: 30px;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 880px) {
   .new-workout {
     padding: 0 10px;
   }
@@ -609,13 +652,28 @@ input::-webkit-inner-spin-button {
 
 .workout-details {
   text-align: left;
+  padding-bottom: 30px;
 }
 
 .workout-details .workout .title {
+  position: relative;
   text-align: center;
   font-size: 46px;
+  width: fit-content;
+  margin: 0 auto;
   color: var(--accent-color);
   margin-bottom: 40px;
+}
+
+.workout-details .workout .title::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  border-radius: 6px;
+  background-color: var(--accent-color);
 }
 
 .workout-details .workout .exercise h3 {
@@ -689,9 +747,51 @@ input::-webkit-inner-spin-button {
   box-shadow: 2px 4px 4px #222;
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 880px) {
   .workout-details {
     margin: 0 10px;
     text-align: center;
   }
+}
+
+/* 404 Page */
+
+.error-page {
+  max-width: 800px;
+  margin-top: 100px;
+  display: flex;
+}
+
+.error-page .title {
+  text-align: left;
+}
+
+.error-page h2 {
+  font-size: 10em;
+  color: var(--accent-color);
+}
+
+.error-page h3 {
+  font-size: 3em;
+}
+
+.error-page p {
+  font-size: 1.5em;
+  padding: 8px 20px;
+}
+
+.error-page #home-link {
+  text-decoration: none;
+  color: var(--text-color);
+  align-self: center;
+  margin: 0 auto;
+  border: 3px solid var(--accent-color);
+  border-radius: 30px;
+  transition: all 200ms;
+}
+
+.error-page #home-link:hover,
+.error-page #home-link:focus {
+  border: 8px solid var(--accent-color);
+  box-shadow: 0 3px 4px var(--accent-color);
 }

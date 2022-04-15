@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
 import { deleteDoc, doc } from "firebase/firestore";
-import db from "./firebase";
+import { db } from "./firebase";
 
 const WorkoutList = ({ workouts, updateWorkoutList }) => {
 

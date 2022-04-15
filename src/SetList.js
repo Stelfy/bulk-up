@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { doc, updateDoc } from '@firebase/firestore';
-import db from './firebase';
+import { db } from './firebase';
 
 const SetList = ({ exercises, sets, exerciseIndex, workoutID }) => {
 
@@ -21,22 +21,6 @@ const SetList = ({ exercises, sets, exerciseIndex, workoutID }) => {
             setError(err.message);
         })
 
-    //     fetch(`https://my-json-server.typicode.com/Stelfy/bulk-up-fake-server/workouts/${ workoutIndex }`, {
-    //        method: 'PATCH',
-    //        headers: {'Content-Type': 'application/json'},
-    //        body: JSON.stringify({
-    //             exercises: data,
-    //        })
-    //    })
-    //    .then( (res) => {
-    //        if (!res.ok){
-    //            throw new Error('Server unresponsive');
-    //        }
-    //        setExSets([...data[exerciseIndex].reps]);
-    //    })
-    //    .catch(err => {
-    //         setError(err.message);
-    //    })
     }
 
     const handleAddRep = (repIndex) => {

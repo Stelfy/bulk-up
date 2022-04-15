@@ -1,8 +1,9 @@
 import WorkoutList from "./WorkoutList";
 import SearchBar from "./SearchBar";
-import { useEffect, useState } from "react";
-import db from "./firebase";
-import { collection, onSnapshot } from "firebase/firestore"
+import { useContext, useEffect, useState } from "react";
+import { db } from "./firebase";
+import { collection, getDocs, query, where } from "firebase/firestore"
+import { UserContext } from "./UserContext";
 
 const Home = () => {
 
@@ -11,27 +12,36 @@ const Home = () => {
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
 
-    //get all documents from "workouts" collection in firebase
+    const currentUser = useContext(UserContext);
+
+    //get all documents from "workouts" collection in firebase with corresponding uid
     const updateWorkoutList = () => {
         setIsPending(true);
         const workoutsTemp = [];
 
-        //should update every time db changes, but being in a function negates that i think
-        onSnapshot(collection(db, "workouts"), (querySnapshot) => {
-            querySnapshot.docs.forEach((workout) => {
-                workoutsTemp.push({...workout.data(), id: workout.id});
-            })
+        //gets all docs in collection "workouts"
+        getDocs(query(collection(db, "workouts"), where("uid", "==", currentUser.uid)))
+            .then(querySnapshot => {
+                querySnapshot.forEach(workout => {
+                    workoutsTemp.push({...workout.data(), id: workout.id});
+                })
 
-            setWorkouts(workoutsTemp);
-            setIsPending(false);
-            workoutsTemp.length = 0;    // clears the temp array to avoid weird errors
-        });
-    }
+                setWorkouts(workoutsTemp);
+                setIsPending(false);
+                workoutsTemp.length = 0;    // clears the temp array to avoid weird errors
+            })
+            .catch(err => {
+                setError(err.message);
+                setIsPending(false);
+                workoutsTemp.length = 0;
+            })
+     }
 
     //update the workout list on load
     useEffect(() => {
         updateWorkoutList();
-        return function cleanup() {onSnapshot(collection(db, "workouts"))};
+        return function cleanup() {}; //I HAVE NO IDEA HOW TO CLEAN UP A getDocs REQUEST 
+        // eslint-disable-next-line
     }, [])
 
     

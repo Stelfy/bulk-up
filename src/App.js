@@ -9,6 +9,7 @@ import { onAuthStateChanged } from "@firebase/auth";
 import { auth } from "./firebase";
 import { UserContext } from "./UserContext";
 import ErrorPage from "./ErrorPage";
+import CalCounter from "./CalCounter";
 
 function App() {
 
@@ -49,6 +50,9 @@ function App() {
             </Route>
             <Route path='/workout-details/:id'>
               <Details />
+            </Route>
+            <Route path='/calories'>
+              <CalCounter />
             </Route>
             <Route path='*'>
               <ErrorPage />

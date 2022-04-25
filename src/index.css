@@ -609,7 +609,8 @@ input::-webkit-inner-spin-button {
 
 #submit-button,
 #modify-button,
-.resetCal {
+.resetCal,
+.add-cals button {
   font-size: 30px;
   color: var(--background-color);
   background-color: var(--accent-color);
@@ -622,7 +623,8 @@ input::-webkit-inner-spin-button {
 
 #submit-button:hover,
 #modify-button:hover,
-.resetCal:hover {
+.resetCal:hover,
+.add-cals button:hover {
   box-shadow: 2px 4px 4px #222;
 }
 
@@ -849,6 +851,8 @@ input::-webkit-inner-spin-button {
   justify-content: center;
   flex-wrap: wrap;
   user-select: none;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
 }
 
 .food-item, .new-food-item {
@@ -863,7 +867,7 @@ input::-webkit-inner-spin-button {
   min-width: 20%;
   text-align: center;
   padding: 0.8em;
-  margin: 2rem 1rem;
+  margin: 1rem;
 }
 
 .food-item h3 {
@@ -894,7 +898,8 @@ input::-webkit-inner-spin-button {
   margin: 2rem;
 }
 
-.new-food-item input{
+.new-food-item input,
+.add-cals input {
   margin-bottom: 20px;
   margin-top: 5px;
   border-radius: 10px;
@@ -905,7 +910,27 @@ input::-webkit-inner-spin-button {
   text-align: center;
 }
 
+.new-food-item input:focus,
+.add-cals input:focus {
+  border: 2px solid var(--accent-color);
+}
+
 .resetCal {
   display: block;
   margin: 0 auto;
+}
+
+.add-cals {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.add-cals button {
+  width: 5rem;
+  margin-top: 0;
+  margin-left: 2rem;
+  font-size: 1.5rem;
+  padding: 0.25em;
+  border-radius: 10px;
 }

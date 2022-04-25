@@ -8,8 +8,10 @@ const CalCounter = () => {
   const [totCal, setTotCal] = useState(null);
   const [isPending, setIsPending] = useState(false);
   const [error, setError] = useState(null);
+  const [addedCals, setAddedCals] = useState('');
 
   const currentUser = useContext(UserContext); 
+
 
   // fetches calorie data from db and updates
   const updateCals = () => {
@@ -35,7 +37,11 @@ const CalCounter = () => {
   }
 
   // adds the caloric value of the clicked button to the total calories
-  const updateCal = (value, {overwrite = false} = {}) => {
+  const updateCal = (value, {overwrite = false, event = null} = {}) => {
+    if (event) {
+      event.preventDefault();
+      setAddedCals('');
+    }
     let newTotCal = totCal + value;
     if (overwrite) newTotCal = value;
     // update value in database
@@ -53,6 +59,12 @@ const CalCounter = () => {
     updateCal(0, { overwrite: true });
   }
 
+  // updates the addedCals variable on input change
+  const handleAddedCalsChange = (e) => {
+    const newCals = parseInt(e.target.value);
+    setAddedCals(newCals);
+  }
+
   useEffect(() => {
     updateCals();
     // eslint-disable-next-line
@@ -63,7 +75,12 @@ const CalCounter = () => {
       <h2 className="title">Calorie Counter</h2>
       {/* { isPending && <div className="loading">Loading...</div> } */}
       { error && <div className="error-message">{ error }</div> }
-      { (totCal || totCal === 0) && <div className="blue-border pad-marg med-text flex space-between"><span className="upper">tot cals:</span><span className="big-text">{totCal}</span></div> }
+      { (totCal || totCal === 0) && 
+        <div className="blue-border pad-marg med-text flex space-between">
+          <span className="upper">tot cals:</span><span className="big-text">{totCal}</span>
+        </div>
+      }
+      <div className="add-cals"><form onSubmit={(e) => updateCal(addedCals, {overwrite: false, event: e})}><input type="number" required value={addedCals} onChange={(e) => handleAddedCalsChange(e)} /><button>Add</button></form></div>
       { <FoodList updateCal={updateCal}/> }
       <button className="resetCal" onClick={resetCal}>Reset</button>
     </div>

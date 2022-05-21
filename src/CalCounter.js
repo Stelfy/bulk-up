@@ -73,14 +73,19 @@ const CalCounter = () => {
   return (
     <div className="CalCounter">
       <h2 className="title">Calorie Counter</h2>
-      {/* { isPending && <div className="loading">Loading...</div> } */}
       { error && <div className="error-message">{ error }</div> }
       { (totCal || totCal === 0) && 
         <div className="blue-border pad-marg med-text flex space-between">
           <span className="upper">tot cals:</span><span className="big-text">{totCal}</span>
         </div>
       }
-      <div className="add-cals"><form onSubmit={(e) => updateCal(addedCals, {overwrite: false, event: e})}><input type="number" required value={addedCals} onChange={(e) => handleAddedCalsChange(e)} /><button>Add</button></form></div>
+      <div className="add-cals">
+        <form onSubmit={(e) => updateCal(addedCals, {overwrite: false, event: e})}><input type="number" required 
+          value={addedCals} 
+          onChange={(e) => handleAddedCalsChange(e)} 
+          placeholder={ (isPending) ? 'Loading...' : undefined } />
+          <button>Add</button>
+        </form></div>
       { <FoodList updateCal={updateCal}/> }
       <button className="resetCal" onClick={resetCal}>Reset</button>
     </div>

@@ -20,7 +20,8 @@ const Navbar = () => {
     }
 
     const listItems = [<Link to="/new-workout" id="new-workout-link-dropdown">New Workout</Link>, 
-    <Link to="/calories" id="new-workout-link-dropdown">Calorie Counter</Link>];   //set list items
+    <Link to="/calories" id="new-workout-link-dropdown">Calorie Counter</Link>,
+    <Link to="/biometrics" id="new-workout-link-dropdown">Biometrics</Link>];   //set list items
 
     return (
         <nav className="navbar">

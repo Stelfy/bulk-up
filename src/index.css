@@ -4,6 +4,7 @@
   margin: 0;
   padding: 0;
   font-family: "Roboto", sans-serif;
+  cursor: pointer;
 }
 
 :root {
@@ -607,7 +608,9 @@ input::-webkit-inner-spin-button {
 }
 
 #submit-button,
-#modify-button {
+#modify-button,
+.resetCal,
+.add-cals button {
   font-size: 30px;
   color: var(--background-color);
   background-color: var(--accent-color);
@@ -619,7 +622,9 @@ input::-webkit-inner-spin-button {
 }
 
 #submit-button:hover,
-#modify-button:hover {
+#modify-button:hover,
+.resetCal:hover,
+.add-cals button:hover {
   box-shadow: 2px 4px 4px #222;
 }
 
@@ -794,4 +799,301 @@ input::-webkit-inner-spin-button {
 .error-page #home-link:focus {
   border: 8px solid var(--accent-color);
   box-shadow: 0 3px 4px var(--accent-color);
+}
+
+/* calorie counter */
+
+.big-text {
+  font-size: 8rem;
+}
+
+.med-text {
+  font-size: 3rem;
+}
+
+.blue-border {
+  border: 0.5rem solid var(--accent-color);
+  border-radius: 1rem;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.pad-marg {
+  padding: 0.2em 0.5em;
+  margin: 3rem 0;
+}
+
+.upper {
+  text-transform: uppercase;
+}
+
+.flex{
+  display: flex;
+}
+
+.space-between {
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.food-list {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  user-select: none;
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+}
+
+.food-item, .new-food-item {
+  display: block;
+  font-size: 1.5rem;
+  background-color: transparent;
+  color: var(--text-color);
+  border: 0.4rem solid var(--accent-color);
+  border-radius: 0.8rem;
+  outline: none;
+  width: fit-content;
+  min-width: 20%;
+  text-align: center;
+  padding: 0.8em;
+  margin: 1rem;
+}
+
+.food-item h3 {
+  font-size: 2rem;
+  font-weight: 600;
+  margin-bottom: 1em;
+}
+
+.food-item button,
+.new-food-item button {
+  font-size: 1.25rem;
+  background-color: transparent;
+  border: none;
+  outline: none;
+  color: var(--accent-color);
+  margin-top: 0.5em;
+}
+
+.food-item button {
+  color: red;
+}
+
+.toggle-new-food-button {
+  font-size: 6rem;
+  color: var(--accent-color);
+  background-color: transparent;
+  border: none;
+  margin: 2rem;
+}
+
+.new-food-item input,
+.add-cals input {
+  margin-bottom: 20px;
+  margin-top: 5px;
+  border-radius: 10px;
+  border: 2px solid #222;
+  padding: 2px;
+  outline: none;
+  font-size: 1.5rem;
+  text-align: center;
+}
+
+.new-food-item input:focus,
+.add-cals input:focus {
+  border: 2px solid var(--accent-color);
+}
+
+.resetCal {
+  display: block;
+  margin: 0 auto;
+}
+
+.add-cals {
+  display: block;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.add-cals button {
+  width: 5rem;
+  margin-top: 0;
+  margin-left: 2rem;
+  font-size: 1.5rem;
+  padding: 0.25em;
+  border-radius: 10px;
+}
+
+@media only screen and (max-width: 880px) {
+  .CalCounter {
+    margin-inline: 1rem;
+  }
+  .CalCounter .flex {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .add-cals input {
+    width: 65%;
+  }
+}
+
+/* Biometrics */
+
+.biometrics-div {
+  display: flex;
+  font-size: 2rem;
+}
+
+.bodypart-name {
+  margin-bottom: 2rem;
+}
+
+.bodypart-selector {
+  width: 45%;
+}
+
+.body-weight {
+  position: absolute;
+  z-index: 1;
+}
+
+.size-values {
+  border: 0.25rem solid var(--accent-color);
+  border-radius: 0.75rem;
+  padding: 0.5em;
+  font-size: 1.5rem;
+  margin-bottom: 0.5em;
+}
+
+.current-size {
+  font-size: 3rem;
+}
+
+.current-size-value {
+  margin-left: 1em;
+  font-size: 3.5rem;
+  font-weight: 600;
+}
+
+.last-size {
+  filter: brightness(0.9);
+}
+
+.size-growth {
+  margin-bottom: 1em;
+  margin-left: 0.5em;
+}
+
+.size-growth svg {
+  margin-right: 0.25em;
+}
+
+.size-input {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  color: var(--text-color);
+  background: none;
+  width: 5em;
+  border: none;
+  border-bottom: 0.15rem solid var(--text-color);
+  font-size: 2rem;
+  margin-right: 0.5em;
+}
+
+.size-input:focus {
+  border: none;
+  border-bottom: 0.15rem solid var(--accent-color);
+  outline: none;
+}
+
+.add-size-button {
+  text-transform: uppercase;
+  border: 0.2rem solid var(--accent-color);
+  border-radius: 0.75rem;
+  background: none;
+  color: var(--text-color);
+  margin-left: 1em;
+  padding: 0.2em 0.3em;
+  font-size: 1.5rem;
+}
+
+.select-weight {
+  background-color: transparent;
+  border: none;
+}
+
+/* Body svg */
+
+#body-svg-parent {
+  position: relative;
+  z-index: 0;
+  width: 20rem;
+}
+
+@media only screen and (max-width: 800px) {
+  .biometrics-div {
+    flex-wrap: wrap;
+    margin: 0 1rem;
+  }
+
+  .body-info {
+    width: 100%;
+    padding-bottom: 40vh;
+  }
+  
+  .bodypart-selector {
+    width: min(100%, 80vh/1.7);
+    margin: 0 auto;
+    height: 90vh;
+    max-width: 360px;
+  }
+  
+  #body-svg-parent {
+    width: 100%;
+  }
+
+  .bodypart-name {
+    text-align: center;
+    text-transform: capitalize;
+    font-size: 3rem;
+  }
+
+  .new-size-value {
+    width: fit-content;
+    margin: 0 auto;
+  }
+
+} 
+
+#body-svg path{
+  fill: none;
+  pointer-events: all;
+  stroke-width: 0.05rem;
+  stroke: var(--text-color);
+}
+
+#body-svg path:hover {
+  stroke: var(--accent-color);
+}
+
+/* Scale svg */
+
+#scale-svg {
+  fill: var(--text-color);
+}
+
+#scale-svg:hover {
+  fill: var(--accent-color);
 }

@@ -1,32 +1,47 @@
-import { getDocs, query, collection, where } from "firebase/firestore";
-import { useContext } from "react";
-import { db } from "./firebase";
-import { UserContext } from "./UserContext";
 
-const SearchBar = ({setWorkouts, updateWorkoutList}) => {
 
-    const currentUser = useContext(UserContext);
+const SearchBar = ({ workouts, setWorkoutsFiltered }) => {
 
     const handleSubmit = (e) => {
-        e.preventDefault();
+      e.preventDefault();
     }
 
+    // recursive traversal of given array, returns true if str matches any string in the array
+    const findStr = (val, str) => {
+      if (typeof val == 'string'){
+        if (val.toLowerCase().includes(str.toLowerCase())) return true;
+        else return false;
+      }
+      if (Array.isArray(val)){
+        for (const v of val){
+          if (findStr(v, str)) return true;
+        }
+      }
+      return false;
+    }
+
+    // checks if a string is part of any string in a workout obj
+    const strInWorkout = (workout, str) => {
+      const exercises = workout.exercises;
+      if (workout.title.toLowerCase().includes(str.toLowerCase())) return true;
+      for (const exercise of exercises){
+        if (findStr(exercise, str)) return true;
+      }
+      return false;
+    }
+
+    // on every input change, we filter the workouts array and set it 
     const handleInputChange = (e) => {
-        // use search queries to list all workouts with exercise name as value, using <= and >= operators to match the start of the value 
-        getDocs(query(collection(db, "workouts"), where("uid", "==", currentUser.uid), where("title", ">=", e.target.value ), where("title", "<=", e.target.value+'\uf8ff')))    
-            .then((querySnapshot) => {
-                const workoutsTemp=[];
+      const string = e.target.value;
 
-                querySnapshot.forEach((workout) => {
-                    workoutsTemp.push({...workout.data(), id: workout.id});
-                })
-
-                setWorkouts(workoutsTemp);
-                workoutsTemp.length = 0;
-
-                if (!e.target.value)            //if the value searched is empty, dont use query                 
-                    updateWorkoutList();
-            });
+      if (string === "" || string === undefined || string === null){
+        setWorkoutsFiltered(workouts);
+        return;
+      }; 
+      const newWorkouts = workouts.filter(workout => {
+        return strInWorkout(workout, string);
+      });
+      setWorkoutsFiltered(newWorkouts);
     }
 
     return (

@@ -9,6 +9,7 @@ const Home = () => {
 
     //initialise workout list and other with useState
     const [workouts, setWorkouts] = useState(null);
+    const [workoutsFiltered, setWorkoutsFiltered] = useState(null);
     const [isPending, setIsPending] = useState(false);
     const [error, setError] = useState(null);
 
@@ -24,34 +25,31 @@ const Home = () => {
             .then(querySnapshot => {
                 querySnapshot.forEach(workout => {
                     workoutsTemp.push({...workout.data(), id: workout.id});
-                })
+                });
 
                 setWorkouts(workoutsTemp);
+                setWorkoutsFiltered(workoutsTemp);
                 setIsPending(false);
-                workoutsTemp.length = 0;    // clears the temp array to avoid weird errors
             })
             .catch(err => {
                 setError(err.message);
                 setIsPending(false);
-                workoutsTemp.length = 0;
             })
      }
 
     //update the workout list on load
     useEffect(() => {
         updateWorkoutList();
-        return function cleanup() {}; //I HAVE NO IDEA HOW TO CLEAN UP A getDocs REQUEST 
         // eslint-disable-next-line
     }, [])
-
     
     return (
         <div className="home">
-            {workouts && <SearchBar updateWorkoutList={updateWorkoutList} setWorkouts={setWorkouts}/>}
+            { workouts && <SearchBar workouts={workouts} setWorkoutsFiltered={setWorkoutsFiltered}/> }
             <h2 className="title">All workouts</h2>
             { isPending && <div className="loading">Loading...</div> }
             { error && <div className="error-message">{ error }</div> }
-            { workouts && <WorkoutList workouts={workouts} updateWorkoutList={updateWorkoutList}/>}
+            { workoutsFiltered && <WorkoutList workouts={workoutsFiltered} updateWorkoutList={updateWorkoutList}/> }
         </div>
     );
 }

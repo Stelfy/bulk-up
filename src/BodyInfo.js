@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import UpTrendIcon from "./svgs/UpTrendIcon";
 import DownTrendIcon from "./svgs/DownTrendIcon";
+import BodyChart from "./BodyChart";
 
 const BodyInfo = ({bodypart, addSize}) => {
 
@@ -14,6 +15,7 @@ const BodyInfo = ({bodypart, addSize}) => {
   const resetValue = () => {
     setSize("");
   }
+
 
   // on load or when bodypart.name changes, if weight is selected, sets kg labels and not cm
   useEffect(() => {
@@ -40,6 +42,7 @@ const BodyInfo = ({bodypart, addSize}) => {
           <button className="add-size-button">add</button>
         </form>
       </div> 
+      <BodyChart sizeHistory={bodypart.sizeHistory} />
     </div>
    );
 }

@@ -17,7 +17,8 @@ const Biometrics = () => {
   const currentUser = useContext(UserContext);
 
   const dateObj = new Date();
-  const currentDate = {year: dateObj.getFullYear(), month: dateObj.getMonth() + 1, day: dateObj.getDate()};
+  const offset = dateObj.getTimezoneOffset();
+  const currentDate = new Date(dateObj.getTime() - (offset*60*1000)).toISOString().split('T')[0];
 
   //updates bodyparts from db 
   const updateBodyparts = async () => {

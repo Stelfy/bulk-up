@@ -51,7 +51,18 @@ const BodyChart = ({ sizeHistory }) => {
     plugins: {
       legend: {
         display: false,
-      }
+      },
+      tooltip: {
+        displayColors: false,
+        callbacks: {
+          label: (context) => {
+            return context.parsed.y;
+          },
+          title: () => {
+            return '';
+          }
+        }
+      } 
     },
     animation: {
       duration: 500

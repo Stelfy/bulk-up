@@ -8,12 +8,40 @@
 }
 
 :root {
-  --background-color: #333;
-  --background-color-light: #444;
-  --accent-color: rgb(0, 140, 255);
-  --accent-color-light: rgb(123, 185, 255);
-  --text-color: rgb(228, 228, 228);
+  --background-color-dark: #333;
+  --background-color-lighter-dark: #444;
+  --accent-color-dark: rgb(0, 140, 255);
+  --accent-color-lighter-dark: rgb(123, 185, 255);
+  --text-color-dark: rgb(228, 228, 228);
+
+  --background-color-light: #f1e3dd;
+  --background-color-lighter-light: #444;
+  --accent-color-light: rgb(0, 140, 255);
+  --accent-color-lighter-light: rgb(123, 185, 255);
+  --text-color-ligth: rgb(228, 228, 228);
   scroll-behavior: smooth;
+}
+
+/* light and dark modes */
+
+@media (prefers-color-scheme: dark){
+  :root{
+    --background-color: var(--background-color-dark);
+    --background-color-lighter: var(--background-color-lighter-dark);
+    --accent-color: var(--accent-color-dark);
+    --accent-color-lighter: var(--accent-color-lighter-dark);
+    --text-color: var(--text-color-dark);
+  }
+}
+
+@media (prefers-color-scheme: light){ 
+  :root{
+    --background-color: var(--background-color-light);
+    --background-color-lighter: var(--background-color-lighter-light);
+    --accent-color: var(--accent-color-light);
+    --accent-color-lighter: var(--accent-color-lighter-light);
+    --text-color: var(--text-color-light);
+  }
 }
 
 html {
@@ -30,18 +58,18 @@ body {
 
 /* scroll bar */
 
-body::-webkit-scrollbar{
+*::-webkit-scrollbar{
   position: absolute;
   width: 1.25rem;
   z-index: 0;
 }
 
-body::-webkit-scrollbar-track {
+*::-webkit-scrollbar-track {
   background: none;
 }
 
-body::-webkit-scrollbar-thumb{
-  background-color: var(--background-color-light);
+*::-webkit-scrollbar-thumb{
+  background-color: var(--background-color-lighter);
   border-radius: 0.75rem;
 }
 
@@ -295,8 +323,7 @@ body::-webkit-scrollbar-thumb{
   justify-content: space-evenly;
 }
 
-.navbar .new-workout-link,
-.navbar .logout {
+.nav-links * {
   margin-left: 10%;
   font-size: 40px;
   text-decoration: none;
@@ -306,8 +333,7 @@ body::-webkit-scrollbar-thumb{
   border: none;
 }
 
-.navbar .new-workout-link::after,
-.navbar .logout::after {
+.nav-links *::after {
   content: "";
   width: 0;
   height: 6px;
@@ -319,10 +345,8 @@ body::-webkit-scrollbar-thumb{
   animation: 200ms underline-out ease-in forwards;
 }
 
-.navbar .new-workout-link:hover::after,
-.navbar .new-workout-link:focus::after,
-.navbar .logout:hover::after,
-.navbar .logout:focus::after {
+.nav-links *:hover::after,
+.nav-links *:focus::after {
   animation: 200ms underline-in ease-out forwards;
 }
 

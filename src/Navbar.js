@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import Dropdown from './Dropdown';
-import { auth } from './firebase';
 import DropdownIcon from './svgs/DropdownIcon';
 
 
@@ -12,11 +11,6 @@ const Navbar = () => {
 
     const toggleDropdown = () => {
         setIsDown(!isDown);
-    }
-    
-    const handleLogout = () => {
-        // logs user out 
-        auth.signOut();
     }
 
     const listItems = [<Link to="/new-workout" id="new-workout-link-dropdown">New Workout</Link>, 
@@ -31,8 +25,9 @@ const Navbar = () => {
                 { isDown && <Dropdown listItems={listItems} toggleDropdown={toggleDropdown}/> }
             </div>
             <div className="nav-links">
-                <button className="logout" onClick={() => handleLogout()}>Logout</button>
                 <Link className="new-workout-link" to="/new-workout">New Workout</Link>
+                <Link to="/calories" id="new-workout-link-dropdown">Calorie Counter</Link>
+                <Link to="/biometrics" id="new-workout-link-dropdown">Biometrics</Link>
             </div>
         </nav>
     );

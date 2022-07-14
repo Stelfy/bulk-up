@@ -24,7 +24,7 @@ const Biometrics = () => {
   const updateBodyparts = async () => {
     setIsPending(true);
 
-    getDoc(doc(db, "biometrics", currentUser.uid))
+    await getDoc(doc(db, "biometrics", currentUser.uid))
       .then(async (data) => {
         // if there is no document saved, create one with the user id as document id
         if (data.data() === undefined){
@@ -40,12 +40,11 @@ const Biometrics = () => {
         setError(err.message);
         setIsPending(false);
       })
-      return;
+    return;
   }
 
   //returns bodypart obj from bodyparts with specified id
   const getBodypart = (id) => {
-    if (isPending) return;
     let newBodypart = null;
     bodyparts.forEach(bp => {
       if (bp.id === id){
@@ -65,10 +64,17 @@ const Biometrics = () => {
     event.preventDefault();
     const newBodyparts = bodyparts.map(bp => {
       if (bp.id === id){
-        bp.lastSize = bp.currentSize;
-        bp.currentSize = newSize;
-        const newHistory = [...bp.sizeHistory, {size: newSize, date: currentDate}];
-        bp.sizeHistory = newHistory;
+        //if the new value is the same date as the current, overwrite the current size
+        if (bp.sizeHistory.length > 0 && currentDate === bp.sizeHistory[bp.sizeHistory.length-1].date){
+          bp.currentSize = newSize;
+          bp.sizeHistory[bp.sizeHistory.length-1].size = newSize;
+        } 
+        else {
+          bp.lastSize = bp.currentSize;
+          bp.currentSize = newSize;
+          const newHistory = [...bp.sizeHistory, {size: newSize, date: currentDate}];
+          bp.sizeHistory = newHistory;
+        }
         const diff = bp.currentSize - bp.lastSize;
         bp.growth = (diff / bp.lastSize) * 100;
       };
@@ -86,9 +92,15 @@ const Biometrics = () => {
   }
 
   useEffect(() => {
-    updateBodyparts();
+    updateBodyparts()
     // eslint-disable-next-line
   }, []);
+
+  //select weight as bodypart once bodyparts has a value, but only when a bodypart isn't already selected
+  useEffect(() => {
+    if (bodyparts && !bodypart) getBodypart('weight');
+    //eslint-disable-next-line
+  }, [bodyparts])
 
   return ( 
     <div className="biometrics-div">
